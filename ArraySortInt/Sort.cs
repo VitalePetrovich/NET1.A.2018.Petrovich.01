@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace ArraySortInt
         /// <summary>
         /// Quick sort method.
         /// </summary>
-        /// <param name="arr">
+        /// <param name="sortingArray">
         /// Source array.
         /// </param>
         /// <param name="lowIndex">
@@ -23,51 +24,82 @@ namespace ArraySortInt
         /// <param name="highIndex">
         /// Sorting ends with this array index.
         /// </param>
-        public static void QuickSort(int[] arr, int lowIndex, int highIndex)
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Throws when at least one of the indexes is outside the array.
+        /// </exception>>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when the sorting array is not initialized.
+        /// </exception>>
+        public static void QuickSort(int[] sortingArray, int lowIndex, int highIndex)
         {
+            void QuickSortAlgorithm(int[] sortingArrayAlg, int lowIndexAlg, int highIndexAlg)
+            {
+                if (lowIndexAlg > highIndexAlg)
+                {
+                    return;
+                }
+
+                int currMinIndex = lowIndexAlg - 1;
+                int root = highIndexAlg;
+                for (int i = lowIndexAlg; i < root; i++)
+                {
+                    if (sortingArrayAlg[i] < sortingArrayAlg[root])
+                    {
+                        Swap(ref sortingArrayAlg[i], ref sortingArrayAlg[++currMinIndex]);
+                    }
+                }
+
+                Swap(ref sortingArrayAlg[++currMinIndex], ref sortingArrayAlg[root]);
+
+                QuickSortAlgorithm(sortingArrayAlg, lowIndexAlg, currMinIndex - 1);
+                QuickSortAlgorithm(sortingArrayAlg, currMinIndex + 1, highIndexAlg);
+            }
+
+            if (sortingArray == null)
+            {
+                throw new ArgumentNullException(nameof(sortingArray));
+            }
+
+            if (lowIndex < 0 || highIndex >= sortingArray.Length)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             if (lowIndex > highIndex)
             {
-                return;
+                Swap(ref lowIndex, ref highIndex);
             }
 
-            int currMinIndex = lowIndex - 1;
-            int root = highIndex;
-            for (int i = lowIndex; i < root; i++)
-            {
-                if (arr[i] < arr[root])
-                {
-                    Swap(ref arr[i], ref arr[++currMinIndex]);
-                }
-            }
-
-            Swap(ref arr[++currMinIndex], ref arr[root]);
-
-            QuickSort(arr, lowIndex, currMinIndex - 1);
-            QuickSort(arr, currMinIndex + 1, highIndex);
+            QuickSortAlgorithm(sortingArray, lowIndex, highIndex);
         }
 
         /// <summary>
         /// Quick sort method.
         /// </summary>
-        /// <param name="arr">
+        /// <param name="sortingArray">
         /// Source array.
         /// </param>
-        public static void QuickSort(int[] arr)
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Throws when at least one of the indexes is outside the array.
+        /// </exception>>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when the sorting array is not initialized.
+        /// </exception>>
+        public static void QuickSort(int[] sortingArray)
         {
-            QuickSort(arr, 0, arr.Length - 1);
+            if (sortingArray == null)
+            {
+                throw new ArgumentNullException(nameof(sortingArray));
+            }
+
+            QuickSort(sortingArray, 0, sortingArray.Length - 1);
         }
 
-        private static void Swap(ref int a, ref int b)
-        {
-            int temp = a;
-            a = b;
-            b = temp;
-        }
 
         /// <summary>
         /// Merge sort method.
         /// </summary>
-        /// <param name="arr">
+        /// <param name="sortingArray">
         /// Source array.
         /// </param>
         /// <param name="lowIndex">
@@ -76,33 +108,72 @@ namespace ArraySortInt
         /// <param name="highIndex">
         /// Sorting ends with this array index.
         /// </param>
-        public static void MergeSort(int[] arr, int lowIndex, int highIndex)
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Throws when at least one of the indexes is outside the array.
+        /// </exception>>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when the sorting array is not initialized.
+        /// </exception>>
+        public static void MergeSort(int[] sortingArray, int lowIndex, int highIndex)
         {
-            if (lowIndex < highIndex)
+            void MergeSortAlgorithm(int[] sortingArrayAlg, int lowIndexAlg, int highIndexAlg)
             {
-                int middle = (lowIndex + highIndex) / 2;
+                if (lowIndexAlg >= highIndexAlg)
+                {
+                    return;
+                }
+
+                int middle = (lowIndexAlg + highIndexAlg) / 2;
                 int[] leftSide = new int[middle + 1];
-                int[] rightSide = new int[highIndex - middle];
+                int[] rightSide = new int[highIndexAlg - middle];
 
-                Array.Copy(arr, 0, leftSide, 0, middle + 1);
-                Array.Copy(arr, middle + 1, rightSide, 0, highIndex - middle);
+                Array.Copy(sortingArrayAlg, 0, leftSide, 0, middle + 1);
+                Array.Copy(sortingArrayAlg, middle + 1, rightSide, 0, highIndexAlg - middle);
 
-                MergeSort(leftSide, 0, leftSide.Length - 1);
-                MergeSort(rightSide, 0, rightSide.Length - 1);
-
-                Merger(arr, leftSide, rightSide);
+                MergeSortAlgorithm(leftSide, 0, leftSide.Length - 1);
+                MergeSortAlgorithm(rightSide, 0, rightSide.Length - 1);
+                
+                Merger(sortingArrayAlg, leftSide, rightSide); 
             }
+
+            if (sortingArray == null)
+            {
+                throw new ArgumentNullException(nameof(sortingArray));
+            }
+
+            if (lowIndex < 0 || highIndex >= sortingArray.Length)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            if (lowIndex > highIndex)
+            {
+                Swap(ref lowIndex, ref highIndex);
+            }
+
+            MergeSortAlgorithm(sortingArray, lowIndex, highIndex);
         }
 
         /// <summary>
         /// Merge sort method.
         /// </summary>
-        /// <param name="arr">
+        /// <param name="sortingArray">
         /// Source array.
         /// </param>
-        public static void MergeSort(int[] arr)
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Throws when at least one of the indexes is outside the array.
+        /// </exception>>
+        /// <exception cref="ArgumentNullException">
+        /// Throws when the sorting array is not initialized.
+        /// </exception>>
+        public static void MergeSort(int[] sortingArray)
         {
-            MergeSort(arr, 0, arr.Length - 1);
+            if (sortingArray == null)
+            {
+                throw new ArgumentNullException(nameof(sortingArray));
+            }
+
+            MergeSort(sortingArray, 0, sortingArray.Length - 1);
         }
 
         private static void Merger(int[] targetArr, int[] leftSide, int[] rightSide)
@@ -134,6 +205,13 @@ namespace ArraySortInt
             {
                 targetArr[targetArrIndex++] = rightSide[rightSideIndex++];
             }
+        }
+
+        private static void Swap(ref int a, ref int b)
+        {
+            int temp = a;
+            a = b;
+            b = temp;
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ArraySortInt;
+using static ArraySortInt.Sort;
 
 namespace ConsoleUI
 {
@@ -19,7 +19,7 @@ namespace ConsoleUI
                 arr[i] = rnd.Next(-100, 100);
             }
 
-            Sort.MergeSort(arr);
+            MergeSort(arr);
 
             foreach (var value in arr)
             {

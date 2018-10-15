@@ -11,7 +11,57 @@ namespace ArraySortInt.NUnitTest
     [TestFixture]
     public class SortTest
     {
-        private bool CheckOrderArray(int[] arr)
+        [TestCase(50)]
+        [TestCase(500000)]
+        public void QuickSort_MixedRandomArray_SortedArrayReturned(int numberOfElements)
+        {
+            int[] sourceArray = CreateRandomArray(numberOfElements);
+
+            QuickSort(sourceArray);
+
+            Assert.IsTrue(IsOrdered(sourceArray));
+        }
+
+        [Test]
+        public void QuickSort_ThrowArgumentNullException()
+            => Assert.Throws<ArgumentNullException>(() => QuickSort(null));
+
+        [Test]
+        public void QuickSort_ThrowArgumentOutOfRangeException()
+            => Assert.Throws<ArgumentOutOfRangeException>(() => QuickSort(new int[0], 0, 10));
+
+        [TestCase(50)]
+        [TestCase(500000)]
+        public void MergeSort_MixedRandomArray_SortedArrayReturned(int numberOfElements)
+        {
+            int[] sourceArray = CreateRandomArray(numberOfElements);
+
+            MergeSort(sourceArray);
+
+            Assert.IsTrue(IsOrdered(sourceArray));
+        }
+
+        [Test]
+        public void MergeSort_ThrowArgumentNullException()
+            => Assert.Throws<ArgumentNullException>(() => MergeSort(null));
+
+        [Test]
+        public void MergeSort_ThrowArgumentOutOfRangeException()
+            => Assert.Throws<ArgumentOutOfRangeException>(() => MergeSort(new int[0], -1, 0));
+
+        private int[] CreateRandomArray(int numberOfElements)
+        {
+            Random rnd = new Random();
+            int[] randomArray = new int[numberOfElements];
+            for (int i = 0; i < numberOfElements; i++)
+            {
+                randomArray[i] = rnd.Next(-100, 100);
+            }
+
+            return randomArray;
+        }
+
+        private bool IsOrdered(int[] arr)
         {
             int arrLength = arr.Length;
             bool isOrdered = true;
@@ -25,53 +75,5 @@ namespace ArraySortInt.NUnitTest
 
             return isOrdered;
         }
-
-        [TestCase(50)]
-        [TestCase(50000)]
-        public void QuickSort_MixedRandomArray_SortedArrayReturned(int numberOfElements)
-        {
-            Random rnd = new Random();
-            int[] sourceArray = new int[numberOfElements];
-            for (int i = 0; i < numberOfElements; i++)
-            {
-                sourceArray[i] = rnd.Next(-100, 100);
-            }
-
-            QuickSort(sourceArray);
-
-            Assert.IsTrue(CheckOrderArray(sourceArray));
-        }
-
-        [Test]
-        public void QuickSort_ThrowNullArgumentException()
-            => Assert.Throws<NullReferenceException>(() => QuickSort(null));
-
-        [Test]
-        public void QuickSort_ThrowIndexOutOfRangeException()
-            => Assert.Throws<IndexOutOfRangeException>(() => QuickSort(new int[0], 0, 10));
-
-        [TestCase(50)]
-        [TestCase(50000)]
-        public void MergeSort_MixedRandomArray_SortedArrayReturned(int numberOfElements)
-        {
-            Random rnd = new Random();
-            int[] sourceArray = new int[numberOfElements];
-            for (int i = 0; i < numberOfElements; i++)
-            {
-                sourceArray[i] = rnd.Next(-100, 100);
-            }
-
-            MergeSort(sourceArray);
-
-            Assert.IsTrue(CheckOrderArray(sourceArray));
-        }
-
-        [Test]
-        public void MergeSort_ThrowNullArgumentException()
-            => Assert.Throws<NullReferenceException>(() => MergeSort(null));
-
-        [Test]
-        public void MergeSort_ThrowArgumentException()
-            => Assert.Throws<ArgumentException>(() => MergeSort(new int[0], -1, 0));
     }
 }
