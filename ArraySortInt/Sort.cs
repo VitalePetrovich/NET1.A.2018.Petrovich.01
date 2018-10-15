@@ -79,9 +79,6 @@ namespace ArraySortInt
         /// <param name="sortingArray">
         /// Source array.
         /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Throws when at least one of the indexes is outside the array.
-        /// </exception>>
         /// <exception cref="ArgumentNullException">
         /// Throws when the sorting array is not initialized.
         /// </exception>>
@@ -160,9 +157,6 @@ namespace ArraySortInt
         /// <param name="sortingArray">
         /// Source array.
         /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Throws when at least one of the indexes is outside the array.
-        /// </exception>>
         /// <exception cref="ArgumentNullException">
         /// Throws when the sorting array is not initialized.
         /// </exception>>
