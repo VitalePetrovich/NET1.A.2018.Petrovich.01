@@ -32,7 +32,7 @@ namespace ArraySortInt.Test
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void QuickSort_TrowArgumentNullException()
-            => QuickSort(null);
+            => QuickSort<int>(null);
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
@@ -64,7 +64,7 @@ namespace ArraySortInt.Test
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void MergeSort_TrowArgumentNullException()
-            => MergeSort(null);
+            => MergeSort<int>(null);
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
